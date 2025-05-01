@@ -1,0 +1,57 @@
+#include <GL/glut.h>
+#include <iostream>
+
+using namespace std;
+
+void bezierCurve(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3) {
+    float t;
+    int x, y;
+
+    for (t = 0.0; t <= 1.0; t += 0.001) {
+        x = (1 - t) * (1 - t) * (1 - t) * x0 +
+            3 * (1 - t) * (1 - t) * t * x1 +
+            3 * (1 - t) * t * t * x2 +
+            t * t * t * x3;
+
+        y = (1 - t) * (1 - t) * (1 - t) * y0 +
+            3 * (1 - t) * (1 - t) * t * y1 +
+            3 * (1 - t) * t * t * y2 +
+            t * t * t * y3;
+
+        glBegin(GL_POINTS);
+        glVertex2i(x, y);
+        glEnd();
+    }
+    glFlush();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1, 1, 1);
+
+    int x0 = 100, y0 = 200;
+    int x1 = 150, y1 = 400;
+    int x2 = 400, y2 = 400;
+    int x3 = 500, y3 = 200;
+
+    bezierCurve(x0, y0, x1, y1, x2, y2, x3, y3);
+}
+
+void init() {
+    glClearColor(0, 0, 0, 1);
+    glColor3f(1, 1, 1);
+    glPointSize(2.0);
+    gluOrtho2D(0.0, 650.0, 650.0, 0.0);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(650, 650);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Bezier Curve");
+    glutDisplayFunc(display);
+    init();
+    glutMainLoop();
+    return 0;
+}
