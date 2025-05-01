@@ -1,0 +1,2 @@
+1) g++ filename.cpp -lGL -lGLU -lglut
+2) ./a.out
