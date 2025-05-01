@@ -1,0 +1,50 @@
+#include <GL/glut.h>
+#include <cmath>
+
+#define PI 3.14159265
+
+void init() {
+    glClearColor(0, 0, 0, 1);
+    glColor3f(1, 1, 1);
+    glPointSize(3);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, 600, 0, 600);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    int x1 = 100, y1 = 100, x2 = 200, y2 = 200;
+    float angle = 45.0; // in degrees
+    float rad = angle * PI / 180;
+
+    glBegin(GL_LINES);
+        glVertex2i(x1, y1);
+        glVertex2i(x2, y2);
+    glEnd();
+
+    int x1r = x1 * cos(rad) - y1 * sin(rad);
+    int y1r = x1 * sin(rad) + y1 * cos(rad);
+    int x2r = x2 * cos(rad) - y2 * sin(rad);
+    int y2r = x2 * sin(rad) + y2 * cos(rad);
+
+    glColor3f(0, 0, 1);
+    glBegin(GL_LINES);
+        glVertex2i(x1r, y1r);
+        glVertex2i(x2r, y2r);
+    glEnd();
+
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(600, 600);
+    glutCreateWindow("Rotation");
+    init();
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
